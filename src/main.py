@@ -5,33 +5,71 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import QTimer
 
 from signal_generator import SignalGenerator
-from oscilloscope import Oscilloscope
+from main_window import MainWindow
+from measurements import Measurements
+
 
 app = QApplication(sys.argv)
+
 generator = SignalGenerator()
-scope = Oscilloscope()
 
-scope.plot_widget.setWindowTitle(
-    "SignalScope v0.1"
-)
-scope.plot_widget.resize(900,500)
-scope.plot_widget.show()
+window = MainWindow()
 
-timer = QTimer()
+window.show()
+
 phase = 0
 
+timer = QTimer()
+
+
 def update():
+
     global phase
 
+    generator.frequency = window.freq_slider.value()
+
+    generator.amplitude = window.amp_slider.value()
+
+    generator.waveform = (
+        window.wave_selector.currentText()
+    )
+
     t = np.linspace(
-        phase,
-        phase+1,
+        0,
+        1,
         1000
     )
-    y = generator.generate_sine(t)
-    scope.curve.setData(t, y)
-    phase += 0.02
+
+    y = generator.generate(
+        t + phase
+    )
+
+    window.rms_label.setText(
+        f"RMS: {Measurements.rms(y):.2f}"
+    )
+
+    window.peak_label.setText(
+        f"Peak: {Measurements.peak(y):.2f}"
+    )
+
+    window.ptp_label.setText(
+        f"Peak-to-Peak: {Measurements.peak_to_peak(y):.2f}"
+    )
+
+    window.avg_label.setText(
+        f"Average: {Measurements.average(y):.2f}"
+    )
+
+    window.curve.setData(
+        t,
+        y
+    )
+
+    phase += 0.01
+
 
 timer.timeout.connect(update)
+
 timer.start(16)
+
 sys.exit(app.exec())
