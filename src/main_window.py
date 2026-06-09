@@ -73,17 +73,40 @@ class MainWindow(QMainWindow):
         control_panel.addWidget(self.avg_label)
         
 
-        self.plot = pg.PlotWidget()
+        plots_layout = QVBoxLayout()
 
-        self.plot.setBackground("k")
+        self.wave_plot = pg.PlotWidget()
 
-        self.plot.showGrid(
+        self.wave_plot.setBackground("k")
+
+        self.wave_plot.showGrid(
             x=True,
             y=True
         )
 
-        self.curve = self.plot.plot(
+        self.curve = self.wave_plot.plot(
             pen='y'
+        )
+
+        self.fft_plot = pg.PlotWidget()
+
+        self.fft_plot.setBackground("k")
+
+        self.fft_plot.showGrid(
+            x=True,
+            y=True
+        )
+
+        self.fft_curve = self.fft_plot.plot(
+            pen='c'
+        )
+
+        plots_layout.addWidget(
+            self.wave_plot
+        )
+
+        plots_layout.addWidget(
+            self.fft_plot
         )
 
         main_layout.addLayout(
@@ -91,7 +114,7 @@ class MainWindow(QMainWindow):
             1
         )
 
-        main_layout.addWidget(
-            self.plot,
+        main_layout.addLayout(
+            plots_layout,
             4
         )

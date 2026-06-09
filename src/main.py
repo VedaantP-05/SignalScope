@@ -7,7 +7,7 @@ from PyQt6.QtCore import QTimer
 from signal_generator import SignalGenerator
 from main_window import MainWindow
 from measurements import Measurements
-
+from fft_analyzer import FFTAnalyzer
 
 app = QApplication(sys.argv)
 
@@ -42,6 +42,16 @@ def update():
 
     y = generator.generate(
         t + phase
+    )
+
+    freq, mag = FFTAnalyzer.compute(
+        y,
+        1000
+    )
+
+    window.fft_curve.setData(
+        freq,
+        mag
     )
 
     window.rms_label.setText(
