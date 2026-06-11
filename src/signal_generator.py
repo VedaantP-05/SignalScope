@@ -5,7 +5,9 @@ from scipy import signal
 class SignalGenerator:
 
     def __init__(self):
-        self.frequency = 2
+        self.freq1 = 5
+        self.freq2 = 20
+        self.freq3 = 50
         self.amplitude = 1
         self.waveform = "Sine"
 
@@ -33,3 +35,18 @@ class SignalGenerator:
             )
 
         return np.zeros_like(t)
+
+    def generate_multitone(self, t):
+        y1 = self.amplitude * np.sin(
+            2 * np.pi * self.freq1 * t
+        )
+        y2 = self.amplitude * np.sin(
+            2 * np.pi * self.freq2 * t
+        )
+        y3 = self.amplitude * np.sin(
+            2 * np.pi * self.freq3 * t
+        )
+
+        return y1 + y2 + y3
+
+        

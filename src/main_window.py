@@ -45,6 +45,27 @@ class MainWindow(QMainWindow):
         self.amp_slider.setMaximum(10)
         self.amp_slider.setValue(1)
 
+        control_panel.addWidget(QLabel("Frequency 1"))
+        self.freq1_slider = QSlider(Qt.Orientation.Horizontal)
+        self.freq1_slider.setMinimum(1)
+        self.freq1_slider.setMaximum(100)
+        self.freq1_slider.setValue(5)
+        control_panel.addWidget(self.freq1_slider)
+
+        control_panel.addWidget(QLabel("Frequency 2"))
+        self.freq2_slider = QSlider(Qt.Orientation.Horizontal)
+        self.freq2_slider.setMinimum(1)
+        self.freq2_slider.setMaximum(100)
+        self.freq2_slider.setValue(20)
+        control_panel.addWidget(self.freq2_slider)
+
+        control_panel.addWidget(QLabel("Frequency 3"))
+        self.freq3_slider = QSlider(Qt.Orientation.Horizontal)
+        self.freq3_slider.setMinimum(1)
+        self.freq3_slider.setMaximum(100)
+        self.freq3_slider.setValue(50)
+        control_panel.addWidget(self.freq3_slider)
+        
         control_panel.addWidget(self.amp_slider)
 
         control_panel.addWidget(QLabel("Waveform"))
@@ -55,7 +76,8 @@ class MainWindow(QMainWindow):
             "Sine",
             "Square",
             "Triangle",
-            "Sawtooth"
+            "Sawtooth",
+            "Multi-Tone"
         ])
 
         control_panel.addWidget(self.wave_selector)

@@ -28,6 +28,12 @@ def update():
 
     generator.frequency = window.freq_slider.value()
 
+    generator.freq1 = window.freq1_slider.value()
+
+    generator.freq2 = window.freq2_slider.value()
+
+    generator.freq3 = window.freq3_slider.value()
+
     generator.amplitude = window.amp_slider.value()
 
     generator.waveform = (
@@ -40,9 +46,14 @@ def update():
         1000
     )
 
-    y = generator.generate(
-        t + phase
-    )
+    if generator.waveform == "Multi-Tone":
+        y = generator.generate_multitone(
+            t + phase
+        )
+    else:
+        y = generator.generate(
+            t + phase
+        )
 
     freq, mag = FFTAnalyzer.compute(
         y,
