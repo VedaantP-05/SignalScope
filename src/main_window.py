@@ -57,6 +57,7 @@ class MainWindow(QMainWindow):
         control_panel.addWidget(self.noise_slider)
 
         control_panel.addWidget(QLabel("Frequency 1"))
+        
         self.freq1_slider = QSlider(Qt.Orientation.Horizontal)
         self.freq1_slider.setMinimum(1)
         self.freq1_slider.setMaximum(100)
@@ -65,6 +66,7 @@ class MainWindow(QMainWindow):
         control_panel.addWidget(self.freq1_slider)
 
         control_panel.addWidget(QLabel("Frequency 2"))
+        
         self.freq2_slider = QSlider(Qt.Orientation.Horizontal)
         self.freq2_slider.setMinimum(1)
         self.freq2_slider.setMaximum(100)
@@ -73,6 +75,7 @@ class MainWindow(QMainWindow):
         control_panel.addWidget(self.freq2_slider)
 
         control_panel.addWidget(QLabel("Frequency 3"))
+        
         self.freq3_slider = QSlider(Qt.Orientation.Horizontal)
         self.freq3_slider.setMinimum(1)
         self.freq3_slider.setMaximum(100)
@@ -95,6 +98,26 @@ class MainWindow(QMainWindow):
 
         control_panel.addWidget(self.wave_selector)
 
+        control_panel.addWidget(QLabel("Filter"))
+
+        self.filter_selector = QComboBox()
+        self.filter_selector.addItems([
+            "None",
+            "Low Pass",
+            "High Pass"
+        ])
+
+        control_panel.addWidget(self.filter_selector)
+
+        control_panel.addWidget(QLabel("Cutoff Frequency"))
+        
+        self.cutoff_slider = QSlider(Qt.Orientation.Horizontal)
+        self.cutoff_slider.setMinimum(1)
+        self.cutoff_slider.setMaximum(100)
+        self.cutoff_slider.setValue(50)
+        
+        control_panel.addWidget(self.cutoff_slider)
+
         control_panel.addSpacing(20)
 
         self.rms_label = QLabel("RMS: 0")
@@ -105,8 +128,7 @@ class MainWindow(QMainWindow):
         control_panel.addWidget(self.rms_label)
         control_panel.addWidget(self.peak_label)
         control_panel.addWidget(self.ptp_label)
-        control_panel.addWidget(self.avg_label)
-        
+        control_panel.addWidget(self.avg_label)       
 
         plots_layout = QVBoxLayout()
 

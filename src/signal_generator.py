@@ -11,6 +11,8 @@ class SignalGenerator:
         self.amplitude = 1
         self.waveform = "Sine"
         self.noise_level = 0
+        self.filter_type = "None"
+        self.cutoff_freq = 50
 
     def generate(self, t):
 
@@ -64,5 +66,24 @@ class SignalGenerator:
         )
 
         return y1 + y2 + y3 + noise
+
+    def apply_filter(self, y, sample_rate):
+        if self.filter_type == "None":
+            return y
+        nyquist = sample_rate / 2
+        normal_cutoff = max(self.cutoff_freq / nyquist, 0.01)
+        
+        b, a = signal.butter(
+            4,
+            normal_cutoff,
+            btype = "low" if self.filter_type == "Low Pass"
+            else "high"
+        )
+
+        return signal.filtfilt(
+            b,
+            a,
+            y
+        )
 
         

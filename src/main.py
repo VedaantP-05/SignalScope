@@ -38,9 +38,11 @@ def update():
 
     generator.noise_level = window.noise_slider.value()
 
-    generator.waveform = (
-        window.wave_selector.currentText()
-    )
+    generator.waveform = window.wave_selector.currentText()
+
+    generator.filter_type = window.filter_selector.currentText()
+
+    generator.cutoff_freq = window.cutoff_slider.value()
 
     t = np.linspace(
         0,
@@ -56,6 +58,12 @@ def update():
         y = generator.generate(
             t + phase
         )
+
+    if generator.filter_type != "None":
+        y = generator.apply_filter(
+            y,
+            1000
+        )   
 
     freq, mag = FFTAnalyzer.compute(
         y,
