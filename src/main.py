@@ -36,6 +36,8 @@ def update():
 
     generator.amplitude = window.amp_slider.value()
 
+    generator.noise_level = window.noise_slider.value()
+
     generator.waveform = (
         window.wave_selector.currentText()
     )
