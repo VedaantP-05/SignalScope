@@ -5,7 +5,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QLabel,
     QSlider,
-    QComboBox
+    QComboBox,
+    QLineEdit
 )
 
 from PyQt6.QtCore import Qt
@@ -31,12 +32,25 @@ class MainWindow(QMainWindow):
 
         control_panel.addWidget(QLabel("Frequency"))
 
+        freq_layout = QHBoxLayout()
+
         self.freq_slider = QSlider(Qt.Orientation.Horizontal)
         self.freq_slider.setMinimum(1)
-        self.freq_slider.setMaximum(20)
-        self.freq_slider.setValue(2)
+        self.freq_slider.setMaximum(100)
+        self.freq_slider.setValue(10)
+        self.freq_input = QLineEdit("10")
+        self.freq_input.setFixedWidth(60)
 
         control_panel.addWidget(self.freq_slider)
+        control_panel.addWidget(self.freq_input)
+
+        self.freq_slider.valueChanged.connect(
+            lambda value: self.freq_input.setText(str(value))
+        )
+
+        self.freq_input.editingFinished.connect(
+            lambda: self.freq_slider.setValue(int(self.freq_input.text()))
+        )
 
         control_panel.addWidget(QLabel("Amplitude"))
 
@@ -117,6 +131,15 @@ class MainWindow(QMainWindow):
         self.cutoff_slider.setValue(50)
         
         control_panel.addWidget(self.cutoff_slider)
+
+        control_panel.addWidget(QLabel("Time Window"))
+
+        self.time_slider = QSlider(Qt.Orientation.Horizontal)
+        self.time_slider.setMinimum(1)
+        self.time_slider.setMaximum(100)
+        self.time_slider.setValue(10)
+
+        control_panel.addWidget(self.time_slider)
 
         control_panel.addSpacing(20)
 

@@ -44,9 +44,11 @@ def update():
 
     generator.cutoff_freq = window.cutoff_slider.value()
 
+    generator.time_window = window.time_slider.value() / 10
+
     t = np.linspace(
         0,
-        1,
+        generator.time_window,
         1000
     )
 

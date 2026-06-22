@@ -13,6 +13,7 @@ class SignalGenerator:
         self.noise_level = 0
         self.filter_type = "None"
         self.cutoff_freq = 50
+        self.time_window = 1
 
     def generate(self, t):
 
