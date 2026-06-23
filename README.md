@@ -1,4 +1,4 @@
-\# SignalScope
+# SignalScope
 
 
 
@@ -6,11 +6,11 @@ SignalScope is a Python-based signal visualization and analysis application deve
 
 
 
-\---
+---
 
 
 
-\## Screenshot
+## Screenshot
 
 
 
@@ -18,11 +18,11 @@ SignalScope is a Python-based signal visualization and analysis application deve
 
 
 
-\## Features
+## Features
 
 
 
-\### Signal Generation
+### Signal Generation
 
 
 
@@ -30,35 +30,35 @@ Supported waveforms:
 
 
 
-\* Sine Wave
+* Sine Wave
 
-\* Square Wave
+* Square Wave
 
-\* Triangle Wave
+* Triangle Wave
 
-\* Sawtooth Wave
+* Sawtooth Wave
 
-\* Multi-Tone Signal Generator
-
-
-
-\### Signal Controls
+* Multi-Tone Signal Generator
 
 
 
-\* Adjustable Frequency
-
-\* Adjustable Amplitude
-
-\* Adjustable Noise Level
-
-\* Adjustable Time Window
-
-\* Numeric input boxes for precise parameter control
+### Signal Controls
 
 
 
-\### Multi-Tone Signals
+* Adjustable Frequency
+
+* Adjustable Amplitude
+
+* Adjustable Noise Level
+
+* Adjustable Time Window
+
+* Numeric input boxes for precise parameter control
+
+
+
+### Multi-Tone Signals
 
 
 
@@ -70,7 +70,7 @@ The frequency controls are displayed dynamically only when Multi-Tone mode is se
 
 
 
-\### Signal Processing
+### Signal Processing
 
 
 
@@ -78,9 +78,9 @@ Digital filters:
 
 
 
-\* Low Pass Filter
+* Low Pass Filter
 
-\* High Pass Filter
+* High Pass Filter
 
 
 
@@ -88,17 +88,17 @@ The Cutoff Frequency control is automatically displayed when a filter is enabled
 
 
 
-\### Analysis Tools
+### Analysis Tools
 
 
 
-\* Real-Time Waveform Visualization
+* Real-Time Waveform Visualization
 
-\* FFT Spectrum Analysis
+* FFT Spectrum Analysis
 
 
 
-\### Signal Measurements
+### Signal Measurements
 
 
 
@@ -106,57 +106,57 @@ The application continuously computes:
 
 
 
-\* RMS Value
+* RMS Value
 
-\* Peak Value
+* Peak Value
 
-\* Peak-to-Peak Value
+* Peak-to-Peak Value
 
-\* Average Value
-
-
-
-\### User Interface
+* Average Value
 
 
 
-\* Interactive PyQt6 GUI
-
-\* Real-time parameter updates
-
-\* Dynamic control visibility
-
-\* Numeric parameter entry
-
-\* Dark-themed plotting area
+### User Interface
 
 
 
-\---
+* Interactive PyQt6 GUI
+
+* Real-time parameter updates
+
+* Dynamic control visibility
+
+* Numeric parameter entry
+
+* Dark-themed plotting area
 
 
 
-\## Technologies Used
+---
 
 
 
-\* Python 3.14
-
-\* PyQt6
-
-\* NumPy
-
-\* SciPy
-
-\* Matplotlib
+## Technologies Used
 
 
 
-\---
+* Python 3.14
+
+* PyQt6
+
+* NumPy
+
+* SciPy
+
+* Matplotlib
 
 
 
-\## Installation
+---
+
+
+
+## Installation
 
 
 
@@ -198,83 +198,83 @@ python src/main.py
 
 
 
-\---
+---
 
 
 
-\## Version History
+## Version History
 
 
 
-\### v0.1
+### v0.1
 
 
 
-\* Initial release
+* Initial release
 
 
 
-\### v0.3
+### v0.3
 
 
 
-\* Added waveform controls and measurements
+* Added waveform controls and measurements
 
 
 
-\### v0.4
+### v0.4
 
 
 
-\* Added FFT spectrum analyser
+* Added FFT spectrum analyser
 
 
 
-\### v0.5
+### v0.5
 
 
 
-\* Added multi-tone signal generation
+* Added multi-tone signal generation
 
 
 
-\### v0.6
+### v0.6
 
 
 
-\* Added noise slider
+* Added noise slider
 
 
 
-\### v0.7
+### v0.7
 
 
 
-\* Added digital filters
+* Added digital filters
 
 
 
-\### v0.8
+### v0.8
 
 
 
-\* Added numeric input boxes beside sliders
+* Added numeric input boxes beside sliders
 
-\* Added dynamic UI visibility
+* Added dynamic UI visibility
 
-\* Added Time Window control
-
-
-
-\---
+* Added Time Window control
 
 
 
-\## Author
+---
 
 
 
-\*\*Vedaant\*\*
+## Author
+
+
+
+*\*Vedaant\*\*
 
 B.Tech Electronics and Communication Engineering
 
@@ -282,7 +282,7 @@ Delhi Technological University (DTU)
 
 
 
-\---
+---
 
 
 
