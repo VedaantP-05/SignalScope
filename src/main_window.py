@@ -8,18 +8,15 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QLineEdit
 )
-
 from PyQt6.QtCore import Qt
-
 import pyqtgraph as pg
-
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("SignalScope v0.2")
+        self.setWindowTitle("SignalScope")
         self.resize(1200, 700)
 
         central = QWidget()
@@ -30,72 +27,48 @@ class MainWindow(QMainWindow):
 
         control_panel = QVBoxLayout()
 
+
         control_panel.addWidget(QLabel("Frequency"))
 
-        freq_layout = QHBoxLayout()
+        freq_layout, self.freq_slider, self.freq_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(freq_layout)
 
-        self.freq_slider = QSlider(Qt.Orientation.Horizontal)
-        self.freq_slider.setMinimum(1)
-        self.freq_slider.setMaximum(100)
-        self.freq_slider.setValue(10)
-        self.freq_input = QLineEdit("10")
-        self.freq_input.setFixedWidth(60)
-
-        control_panel.addWidget(self.freq_slider)
-        control_panel.addWidget(self.freq_input)
-
-        self.freq_slider.valueChanged.connect(
-            lambda value: self.freq_input.setText(str(value))
-        )
-
-        self.freq_input.editingFinished.connect(
-            lambda: self.freq_slider.setValue(int(self.freq_input.text()))
-        )
 
         control_panel.addWidget(QLabel("Amplitude"))
 
-        self.amp_slider = QSlider(Qt.Orientation.Horizontal)
-        self.amp_slider.setMinimum(1)
-        self.amp_slider.setMaximum(10)
-        self.amp_slider.setValue(1)
-
-        control_panel.addWidget(self.amp_slider)
+        amp_layout, self.amp_slider, self.amp_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(amp_layout)
+        
 
         control_panel.addWidget(QLabel("Noise"))
 
-        self.noise_slider = QSlider(Qt.Orientation.Horizontal)
-        self.noise_slider.setMinimum(0)
-        self.noise_slider.setMaximum(100)
-        self.noise_slider.setValue(0)
+        noise_layout, self.noise_slider, self.noise_input = \
+            self.create_slider_input(0, 100, 0)
+        control_panel.addLayout(noise_layout)
 
-        control_panel.addWidget(self.noise_slider)
 
-        control_panel.addWidget(QLabel("Frequency 1"))
+        self.freq1_label = QLabel("Frequency 1")
+        control_panel.addWidget(self.freq1_label)
         
-        self.freq1_slider = QSlider(Qt.Orientation.Horizontal)
-        self.freq1_slider.setMinimum(1)
-        self.freq1_slider.setMaximum(100)
-        self.freq1_slider.setValue(5)
-        
-        control_panel.addWidget(self.freq1_slider)
+        freq1_layout, self.freq1_slider, self.freq1_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(freq1_layout)
 
-        control_panel.addWidget(QLabel("Frequency 2"))
+        self.freq2_label = QLabel("Frequency 2")
+        control_panel.addWidget(self.freq2_label)
         
-        self.freq2_slider = QSlider(Qt.Orientation.Horizontal)
-        self.freq2_slider.setMinimum(1)
-        self.freq2_slider.setMaximum(100)
-        self.freq2_slider.setValue(20)
-        
-        control_panel.addWidget(self.freq2_slider)
+        freq2_layout, self.freq2_slider, self.freq2_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(freq2_layout)
 
-        control_panel.addWidget(QLabel("Frequency 3"))
+        self.freq3_label = QLabel("Frequency 3")
+        control_panel.addWidget(self.freq3_label)
         
-        self.freq3_slider = QSlider(Qt.Orientation.Horizontal)
-        self.freq3_slider.setMinimum(1)
-        self.freq3_slider.setMaximum(100)
-        self.freq3_slider.setValue(50)
-        
-        control_panel.addWidget(self.freq3_slider)
+        freq3_layout, self.freq3_slider, self.freq3_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(freq3_layout)
 
 
         control_panel.addWidget(QLabel("Waveform"))
@@ -109,8 +82,25 @@ class MainWindow(QMainWindow):
             "Sawtooth",
             "Multi-Tone"
         ])
-
         control_panel.addWidget(self.wave_selector)
+
+        self.multitone_widgets = [
+            self.freq1_label,
+            self.freq1_slider,
+            self.freq1_input,
+
+            self.freq2_label,
+            self.freq2_slider,
+            self.freq2_input,
+
+            self.freq3_label,
+            self.freq3_slider,
+            self.freq3_input
+        ]
+
+        self.wave_selector.currentIndexChanged.connect(self.update_multitone_controls)
+        self.update_multitone_controls()
+
 
         control_panel.addWidget(QLabel("Filter"))
 
@@ -123,23 +113,29 @@ class MainWindow(QMainWindow):
 
         control_panel.addWidget(self.filter_selector)
 
-        control_panel.addWidget(QLabel("Cutoff Frequency"))
+        self.cutoff_label  = QLabel("Cutoff Frequency")
+        control_panel.addWidget(self.cutoff_label)
         
-        self.cutoff_slider = QSlider(Qt.Orientation.Horizontal)
-        self.cutoff_slider.setMinimum(1)
-        self.cutoff_slider.setMaximum(100)
-        self.cutoff_slider.setValue(50)
-        
-        control_panel.addWidget(self.cutoff_slider)
+        cutoff_layout, self.cutoff_slider, self.cutoff_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(cutoff_layout)
+
+        self.cutoff_widgets = [
+            self.cutoff_label,
+            self.cutoff_slider,
+            self.cutoff_input
+        ]
+
+        self.filter_selector.currentTextChanged.connect(self.update_filter_controls)
+        self.update_filter_controls()
+
 
         control_panel.addWidget(QLabel("Time Window"))
 
-        self.time_slider = QSlider(Qt.Orientation.Horizontal)
-        self.time_slider.setMinimum(1)
-        self.time_slider.setMaximum(100)
-        self.time_slider.setValue(10)
+        time_layout, self.time_slider, self.time_input = \
+            self.create_slider_input(1, 100, 1)
+        control_panel.addLayout(time_layout)
 
-        control_panel.addWidget(self.time_slider)
 
         control_panel.addSpacing(20)
 
@@ -198,3 +194,43 @@ class MainWindow(QMainWindow):
             plots_layout,
             4
         )
+
+    def create_slider_input(self, min_val, max_val, default):
+        slider_layout = QHBoxLayout()
+
+        slider = QSlider(Qt.Orientation.Horizontal)
+        slider.setRange(min_val, max_val)
+        slider.setValue(default)
+
+        box = QLineEdit(str(default))
+        box.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        box.setFixedWidth(50)
+
+        slider.valueChanged.connect(
+            lambda v: box.setText(str(v))
+        )
+
+        box.editingFinished.connect(
+            lambda: slider.setValue(int(box.text()))
+        )
+
+        slider_layout.addWidget(slider)
+        slider_layout.addWidget(box)
+
+        return slider_layout, slider, box
+
+    def update_multitone_controls(self):
+        visible = (
+            self.wave_selector.currentText() == "Multi-Tone"
+        )
+
+        for widget in self.multitone_widgets:
+            widget.setVisible(visible)
+
+    def update_filter_controls(self):
+        visible = (
+            self.filter_selector.currentText() != "None"
+        )
+
+        for widget in self.cutoff_widgets:
+            widget.setVisible(visible)

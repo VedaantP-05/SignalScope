@@ -10,17 +10,11 @@ from measurements import Measurements
 from fft_analyzer import FFTAnalyzer
 
 app = QApplication(sys.argv)
-
 generator = SignalGenerator()
-
 window = MainWindow()
-
 window.show()
-
 phase = 0
-
 timer = QTimer()
-
 
 def update():
 
@@ -44,7 +38,7 @@ def update():
 
     generator.cutoff_freq = window.cutoff_slider.value()
 
-    generator.time_window = window.time_slider.value() / 10
+    generator.time_window = window.time_slider.value()
 
     t = np.linspace(
         0,
