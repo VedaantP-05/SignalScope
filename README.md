@@ -14,7 +14,7 @@ SignalScope is a Python-based signal visualization and analysis application deve
 
 
 
-!\[SignalScope](assets/signalscope\_v0.8.png)
+\[SignalScope](assets/signalscope\_v0.8.png)
 
 
 
