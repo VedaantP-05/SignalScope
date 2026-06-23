@@ -1,11 +1,3 @@
-\## Screenshot
-
-
-
-!\[SignalScope](assets/signalscope\_v0.8.png)
-
-
-
 \# SignalScope
 
 
@@ -15,6 +7,14 @@ SignalScope is a Python-based signal visualization and analysis application deve
 
 
 \---
+
+
+
+\## Screenshot
+
+
+
+!\[SignalScope](assets/signalscope\_v0.8.png)
 
 
 
