@@ -180,7 +180,7 @@ Install dependencies:
 
 ```bash
 
-pip install numpy scipy matplotlib pyqt6 pyqtgraph
+pip install -r requirements.txt
 
 ```
 
@@ -274,7 +274,7 @@ python src/main.py
 
 
 
-*\*Vedaant\*\*
+**Vedaant**
 
 B.Tech Electronics and Communication Engineering
 
