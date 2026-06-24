@@ -1,3 +1,11 @@
+import pyqtgraph as pg
+import numpy as np
+
+from datetime import datetime
+from PyQt6.QtCore import (
+    Qt,
+    QTimer
+)
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -6,15 +14,23 @@ from PyQt6.QtWidgets import (
     QLabel,
     QSlider,
     QComboBox,
-    QLineEdit
+    QLineEdit,
+    QPushButton
 )
-from PyQt6.QtCore import Qt
-import pyqtgraph as pg
+from fft_analyzer import FFTAnalyzer
+from measurements import Measurements
+from signal_generator import SignalGenerator
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
+        self.phase = 0
+        self.generator = SignalGenerator()
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update)
+        self.timer.start(16) 
 
         self.setWindowTitle("SignalScope")
         self.resize(1200, 700)
@@ -26,7 +42,7 @@ class MainWindow(QMainWindow):
         central.setLayout(main_layout)
 
         control_panel = QVBoxLayout()
-
+        
 
         control_panel.addWidget(QLabel("Frequency"))
 
@@ -137,6 +153,19 @@ class MainWindow(QMainWindow):
         control_panel.addLayout(time_layout)
 
 
+        self.export_button = QPushButton("Export CSV")
+        
+        self.export_button.clicked.connect(self.export_signal)
+        control_panel.addWidget(self.export_button)
+
+
+        self.screenshot_btn = QPushButton("Save Plot")
+        
+        control_panel.addWidget(self.screenshot_btn)
+        self.screenshot_btn.clicked.connect(
+            self.save_plot
+        )
+
         control_panel.addSpacing(20)
 
         self.rms_label = QLabel("RMS: 0")
@@ -195,6 +224,68 @@ class MainWindow(QMainWindow):
             4
         )
 
+    def update(self):
+
+        self.generator.frequency = self.freq_slider.value()
+        self.generator.freq1 = self.freq1_slider.value()
+        self.generator.freq2 = self.freq2_slider.value()
+        self.generator.freq3 = self.freq3_slider.value()
+        self.generator.amplitude = self.amp_slider.value()
+        self.generator.noise_level = self.noise_slider.value()
+        self.generator.waveform = self.wave_selector.currentText()
+        self.generator.filter_type = self.filter_selector.currentText()
+        self.generator.cutoff_freq = self.cutoff_slider.value()
+        self.generator.time_window = self.time_slider.value()
+
+        t = np.linspace(
+            0,
+            self.generator.time_window,
+            1000
+        )
+
+        if self.generator.waveform == "Multi-Tone":
+            y = self.generator.generate_multitone(
+                t + self.phase
+            )
+        else:
+            y = self.generator.generate(
+                t + self.phase
+            )
+
+        if self.generator.filter_type != "None":
+            y = self.generator.apply_filter(
+                y,
+                1000
+            )
+
+        self.t = t
+        self.signal = y
+
+        freq, mag = FFTAnalyzer.compute(
+            y,
+            1000
+        )
+
+        self.fft_curve.setData(
+            freq,
+            mag
+        )
+
+        self.rms_label.setText(f"RMS: {Measurements.rms(y):.2f}")
+
+        self.peak_label.setText(f"Peak: {Measurements.peak(y):.2f}")
+
+        self.ptp_label.setText(f"Peak-to-Peak: {Measurements.peak_to_peak(y):.2f}")
+
+        self.avg_label.setText(f"Average: {Measurements.average(y):.2f}")
+
+        self.curve.setData(
+            t,
+            y
+        )
+
+        self.phase += 0.01
+
     def create_slider_input(self, min_val, max_val, default):
         slider_layout = QHBoxLayout()
 
@@ -234,3 +325,20 @@ class MainWindow(QMainWindow):
 
         for widget in self.cutoff_widgets:
             widget.setVisible(visible)
+
+    def export_signal(self):
+        filename = datetime.now().strftime("signal_%Y%m%d_%H%M%S.csv")
+        np.savetxt(
+            filename,
+            np.column_stack((self.t, self.signal)),
+            delimiter=",",
+            header="Time,Amplitude",
+            comments="",
+            fmt="%.6f"
+        )
+        print("Signal exported.")
+
+    def save_plot(self):
+        filename = datetime.now().strftime("plot_%Y%m%d_%H%M%S.png")
+        self.fft_plot.grab().save(filename)
+        print("Plot exported.")
